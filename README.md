@@ -1,20 +1,58 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Azure DevOps CI/CD – Java Web App to Azure Linux App Service
+Overview
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+This repository contains a production-style, multi-stage Azure DevOps pipeline that builds, scans, packages, and deploys a Maven-based Java web application to Azure App Service (Linux).
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+The pipeline is fully defined in YAML and structured to enforce quality gates, artifact traceability, and controlled cloud deployments.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Architecture
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+The workflow is intentionally separated into three stages:
+
+CodeScan → Build → Deploy
+
+CodeScan integrates SonarQube to enforce static analysis and publish unit test results.
+
+Build compiles and packages the application using Apache Maven and publishes versioned artifacts.
+
+Deploy releases the artifact to Azure App Service (Linux) using an Azure Resource Manager service connection.
+
+The pipeline runs on a managed agent pool and is triggered on changes to the main branch.
+
+Engineering Decisions
+
+Multi-stage YAML pipeline for environment separation and scalability.
+
+Artifact publishing between stages to decouple build and deployment.
+
+Service Principal authentication to avoid credential exposure.
+
+Quality-first workflow — code must pass analysis before deployment.
+
+Explicit deployment targeting using environment configuration (dev).
+
+This mirrors enterprise CI/CD design patterns rather than single-stage demo pipelines.
+
+What This Demonstrates
+
+Azure DevOps pipeline architecture
+
+Static code analysis integration
+
+Artifact lifecycle management
+
+Secure Azure authentication
+
+Linux-based App Service deployment
+
+CI/CD maturity aligned with cloud engineering practices
+
+Next Iteration (Production Hardening)
+
+Introduce IaC (Terraform/Bicep) for App Service provisioning
+
+Add gated approvals for higher environments
+
+Implement blue/green or slot-based deployment strategy
+
+Integrate Azure Monitor / Application Insights
