@@ -1,58 +1,62 @@
-Azure DevOps CI/CD – Java Web App to Azure Linux App Service
-Overview
+# Azure DevOps CI/CD Pipeline – Java Web App (Linux App Service)
 
-This repository contains a production-style, multi-stage Azure DevOps pipeline that builds, scans, packages, and deploys a Maven-based Java web application to Azure App Service (Linux).
+## Overview
 
-The pipeline is fully defined in YAML and structured to enforce quality gates, artifact traceability, and controlled cloud deployments.
+This repository contains a production-style, multi-stage Azure DevOps YAML pipeline that builds, analyzes, packages, and deploys a Maven-based Java web application to Azure App Service (Linux).
 
-Architecture
+The implementation reflects enterprise CI/CD design principles, including stage isolation, artifact promotion, secure authentication, and quality-gated deployments.
 
-The workflow is intentionally separated into three stages:
+---
 
-CodeScan → Build → Deploy
+## Architecture
 
-CodeScan integrates SonarQube to enforce static analysis and publish unit test results.
+![CI/CD Architecture](docs/ci-cd-architecture.png)
 
-Build compiles and packages the application using Apache Maven and publishes versioned artifacts.
+### Workflow Summary
 
-Deploy releases the artifact to Azure App Service (Linux) using an Azure Resource Manager service connection.
+The pipeline is automatically triggered on commits to the **main** branch and executes the following stages:
 
-The pipeline runs on a managed agent pool and is triggered on changes to the main branch.
+### **1. CodeScan**
+- Static code analysis using SonarQube  
+- Unit test execution and result publishing  
+- Quality gate enforcement before build progression  
 
-Engineering Decisions
+### **2. Build & Package**
+- Application compilation using Apache Maven  
+- WAR/JAR artifact generation  
+- Artifact staging and publishing for downstream deployment  
 
-Multi-stage YAML pipeline for environment separation and scalability.
+### **3. Deploy**
+- Secure authentication via Azure Service Principal  
+- Deployment to Azure App Service (Linux)  
+- Target environment: **dev**  
 
-Artifact publishing between stages to decouple build and deployment.
+---
 
-Service Principal authentication to avoid credential exposure.
+## Design Principles
 
-Quality-first workflow — code must pass analysis before deployment.
+- **Multi-stage YAML architecture** for separation of concerns  
+- **Artifact lifecycle management** between build and deployment  
+- **Quality-first workflow** with enforced static analysis  
+- **Secure cloud authentication** using Azure Resource Manager connection  
+- **Deterministic builds** triggered from source control  
 
-Explicit deployment targeting using environment configuration (dev).
+---
 
-This mirrors enterprise CI/CD design patterns rather than single-stage demo pipelines.
+## Technologies Used
 
-What This Demonstrates
+- Azure DevOps (YAML Pipelines)  
+- SonarQube (Static Code Analysis)  
+- Apache Maven (Build Automation)  
+- Azure App Service (Linux)  
+- Azure Resource Manager (Service Principal Authentication)  
 
-Azure DevOps pipeline architecture
+---
 
-Static code analysis integration
+## Engineering Focus
 
-Artifact lifecycle management
+This project demonstrates practical CI/CD pipeline architecture, secure cloud deployment patterns, artifact traceability, and quality-controlled release workflows aligned with modern Azure cloud engineering standards.
 
-Secure Azure authentication
+---
 
-Linux-based App Service deployment
-
-CI/CD maturity aligned with cloud engineering practices
-
-Next Iteration (Production Hardening)
-
-Introduce IaC (Terraform/Bicep) for App Service provisioning
-
-Add gated approvals for higher environments
-
-Implement blue/green or slot-based deployment strategy
-
-Integrate Azure Monitor / Application Insights
+**Role Focus:** Azure Cloud Engineering / DevOps
